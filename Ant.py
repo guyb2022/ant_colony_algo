@@ -14,6 +14,7 @@ class Ant:
         self.FADE_TIME = 50
         self.pheromone_level = 1.0
         self.pheromone_start_time = pygame.time.get_ticks()
+        self.path = [(x, y)]  # Initialize path with the starting position
 
     def check_valid_move(self, x, y):
         if  0 <= x < self.width and 0 <= y < self.height:
@@ -43,7 +44,7 @@ class Ant:
             probabilities = [grid[y][x] / sum_pheromone if sum_pheromone > 0 else 0 for x, y in valid_neighbors]
 
             # Choose a random move based on the probabilities
-            next_move = random.choice(valid_neighbors)
+            next_move = random.choices(valid_neighbors, probabilities)[0]
             self.x, self.y = next_move
         else:
             # If no pheromone trails are present or all moves are invalid, choose a random valid move
